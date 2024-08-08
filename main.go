@@ -15,7 +15,7 @@ func main() {
 	a := app.New()
 	w := a.NewWindow("Sqr Vault")
 	w.Resize(fyne.Size{Width: 800, Height: 600})
-	w.SetMainMenu(component.CreateMainMenu())
+	w.SetMainMenu(component.CreateMainMenu(w))
 
 	hello := widget.NewLabel("Welcome to Sqr Vault.")
 	w.SetContent(container.NewVBox(

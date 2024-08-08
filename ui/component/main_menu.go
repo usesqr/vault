@@ -1,10 +1,17 @@
 package component
 
 import (
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2"
+	"github.com/usesqr/vault/ui/dialog"
 )
 
-func CreateMainMenu() (menu *fyne.MainMenu) {
+func CreateMainMenu(win fyne.Window) (menu *fyne.MainMenu) {
 	fileMenu := fyne.NewMenu("File")
-	return fyne.NewMainMenu(fileMenu)
+
+	aboutMenuItem := fyne.NewMenuItem("About", func() { dialog.ShowAboutDialog(win) })
+	aboutMenuItem.Icon = theme.InfoIcon()
+	helpMenu := fyne.NewMenu("Help", aboutMenuItem)
+	
+	return fyne.NewMainMenu(fileMenu, helpMenu)
 }
