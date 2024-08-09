@@ -1,6 +1,7 @@
 package db
 
 import (
+	"encoding/base64"
 	"fmt"
 
 	sqliteEncrypt "github.com/jackfr0st13/gorm-sqlite-cipher"
@@ -11,12 +12,13 @@ import (
 var DB *gorm.DB
 
 func Connect(password string, isFirstTime bool) {
-	var keyStr string
+	var key []byte
 	if isFirstTime {
-		keyStr = string(crypto.GenerateNewCryptoKey(password))
+		key = crypto.GenerateNewCryptoKey(password)
 	} else {
-		keyStr = string(crypto.DeriveExistingCryptoKey(password))
+		key = crypto.DeriveExistingCryptoKey(password)
 	}
+	keyStr := base64.StdEncoding.EncodeToString(key)
 	dbNameWithDSN := GetDatabaseFilePath() + fmt.Sprintf("?_pragma_key=%s&_pragma_cipher_page_size=4096", keyStr)
 	db, err := gorm.Open(sqliteEncrypt.Open(dbNameWithDSN))
 
