@@ -6,6 +6,7 @@ import (
 
 	sqliteEncrypt "github.com/jackfr0st13/gorm-sqlite-cipher"
 	"github.com/usesqr/vault/crypto"
+	"github.com/usesqr/vault/db/model"
 	"gorm.io/gorm"
 )
 
@@ -25,6 +26,8 @@ func Connect(password string, isFirstTime bool) {
 	if err != nil {
 		panic(err)
 	}
+
+	db.AutoMigrate(&model.Password{})
 
 	DB = db
 }
