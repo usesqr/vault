@@ -1,11 +1,7 @@
 package main
 
-import (
-	"fyne.io/fyne/v2/app"
-	"github.com/usesqr/vault/ui/window"
-)
+import "github.com/usesqr/vault/app"
 
 func main() {
-	a := app.New()
-	window.CreateMainWindow(a).ShowAndRun()
+	app.Run()
 }
