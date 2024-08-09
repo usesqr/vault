@@ -43,3 +43,12 @@ func ReadSaltFile() []byte {
 
 	return data
 }
+
+func DoesSaltFileExist() bool {
+	_, err := os.ReadFile(GetSaltFilePath())
+	if err == nil {
+		return true
+	}
+
+	return os.IsNotExist(err)
+}
