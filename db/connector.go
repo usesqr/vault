@@ -8,7 +8,9 @@ import (
 	"gorm.io/gorm"
 )
 
-func Connect(password string, isFirstTime bool) *gorm.DB {
+var DB *gorm.DB
+
+func Connect(password string, isFirstTime bool) {
 	var keyStr string
 	if isFirstTime {
 		keyStr = string(crypto.GenerateNewCryptoKey(password))
@@ -22,5 +24,5 @@ func Connect(password string, isFirstTime bool) *gorm.DB {
 		panic(err)
 	}
 
-	return db
+	DB = db
 }

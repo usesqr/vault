@@ -2,9 +2,12 @@ package crypto
 
 import (
 	"crypto/rand"
+	"errors"
 	"io"
+	"io/fs"
 	"os"
 	"path"
+	"path/filepath"
 
 	"github.com/usesqr/vault/consts"
 )
@@ -29,11 +32,21 @@ func GenerateSalt() []byte {
 }
 
 func WriteSaltFile(salt []byte) {
-	err := os.WriteFile(GetSaltFilePath(), salt, 0644)
+	path := GetSaltFilePath()
+
+	// Ensure the directory exists
+	err := os.MkdirAll(filepath.Dir(path), 0755)
+	if err != nil {
+		panic(err)
+	}
+
+	// Write the salt to the file
+	err = os.WriteFile(path, salt, 0644)
 	if err != nil {
 		panic(err)
 	}
 }
+
 
 func ReadSaltFile() []byte {
 	data, err := os.ReadFile(GetSaltFilePath())
@@ -46,9 +59,8 @@ func ReadSaltFile() []byte {
 
 func DoesSaltFileExist() bool {
 	_, err := os.ReadFile(GetSaltFilePath())
-	if err == nil {
-		return true
+	if err != nil {
+		return !errors.Is(err, fs.ErrNotExist)
 	}
-
-	return os.IsNotExist(err)
+	return true
 }
