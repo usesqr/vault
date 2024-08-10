@@ -22,7 +22,7 @@ func CreatePasswordList(win fyne.Window) fyne.CanvasObject {
 	}
 
 	label := widget.NewLabel("Select a password to view")
-	hbox := container.NewHBox(label)
+	hbox := container.NewHBox(container.NewCenter(label))
 
 	list := widget.NewList(
 		func() int {
@@ -37,11 +37,8 @@ func CreatePasswordList(win fyne.Window) fyne.CanvasObject {
 		},
 	)
 	list.OnSelected = func(id widget.ListItemID) {
-		label.SetText((*entries)[id].Name)
-	}
-	list.OnUnselected = func(id widget.ListItemID) {
-		label.SetText("Select a password to view")
+		hbox.Objects = []fyne.CanvasObject{CreatePasswordDetail(win, (*entries)[id])}
 	}
 
-	return container.NewHSplit(list, container.NewCenter(hbox))
+	return container.NewHSplit(list, hbox)
 }
