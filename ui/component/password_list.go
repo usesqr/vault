@@ -34,7 +34,13 @@ func CreatePasswordList(win fyne.Window) fyne.CanvasObject {
 		nil,
 	)
 	list.UpdateItem = func(id widget.ListItemID, item fyne.CanvasObject) {
-		formattedName := fmt.Sprintf("%s\n%s", (*entries)[id].Name, (*entries)[id].Username)
+		name := (*entries)[id].Name
+		username := (*entries)[id].Username
+
+		if name == "" { name = "Unnamed "}
+		if username == "" { username = "No username provided" }
+		
+		formattedName := fmt.Sprintf("%s\n%s", name, username)
 		item.(*fyne.Container).Objects[0].(*widget.Label).SetText(formattedName)
 		list.SetItemHeight(id, 50)
 	}
