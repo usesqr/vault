@@ -11,30 +11,39 @@ import (
 	"github.com/usesqr/vault/ui/dialog"
 )
 
-func CreateMainWindow(a fyne.App) (w fyne.Window) {
-	w = a.NewWindow(consts.FullName)
+func CreateMainWindow(a fyne.App) fyne.Window {
+	w := a.NewWindow(consts.FullName)
 	w.Resize(fyne.Size{Width: 800, Height: 600})
 	w.SetMainMenu(component.CreateMainMenu(w))
 
-	w.SetContent(component.CreateToolbar(w))
+	dbConnected := make(chan bool)
 
 	if crypto.DoesSaltFileExist() {
 		dialog.ShowUnlockDialog(w, func(pass string, ok bool) {
 			if !ok {
 				os.Exit(1)
 			}
-	
+
 			db.Connect(pass, false)
+			dbConnected <- true
 		})
 	} else {
 		dialog.ShowFirstStartDialog(w, func(pass string, ok bool) {
 			if !ok {
 				os.Exit(1)
 			}
-	
+
 			db.Connect(pass, true)
+			dbConnected <- true
 		})
 	}
-	
-	return
+
+	go func() {
+		<-dbConnected
+		toolbar := component.CreateToolbar(w).(*fyne.Container)
+		toolbar.Add(component.CreatePasswordList(w))
+		w.SetContent(toolbar)
+	}()
+
+	return w
 }
