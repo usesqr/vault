@@ -31,11 +31,13 @@ func CreatePasswordList(win fyne.Window) fyne.CanvasObject {
 		func() fyne.CanvasObject {
 			return container.NewHBox(widget.NewLabel("sadf"))
 		},
-		func(id widget.ListItemID, item fyne.CanvasObject) {
-			formattedName := fmt.Sprintf("%s: %s", (*entries)[id].Name, (*entries)[id].Username)
-			item.(*fyne.Container).Objects[0].(*widget.Label).SetText(formattedName)
-		},
+		nil,
 	)
+	list.UpdateItem = func(id widget.ListItemID, item fyne.CanvasObject) {
+		formattedName := fmt.Sprintf("%s\n%s", (*entries)[id].Name, (*entries)[id].Username)
+		item.(*fyne.Container).Objects[0].(*widget.Label).SetText(formattedName)
+		list.SetItemHeight(id, 50)
+	}
 	list.OnSelected = func(id widget.ListItemID) {
 		hbox.Objects = []fyne.CanvasObject{CreatePasswordDetail(win, (*entries)[id])}
 	}
