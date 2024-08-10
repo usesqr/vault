@@ -3,6 +3,7 @@ package component
 import (
 	"fmt"
 
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
@@ -29,7 +30,7 @@ func CreatePasswordList(win fyne.Window) fyne.CanvasObject {
 			return len(*entries)
 		},
 		func() fyne.CanvasObject {
-			return container.NewHBox(widget.NewLabel("sadf"))
+			return container.NewHBox(widget.NewIcon(theme.AccountIcon()), widget.NewLabel("Template Object"))
 		},
 		nil,
 	)
@@ -39,9 +40,9 @@ func CreatePasswordList(win fyne.Window) fyne.CanvasObject {
 
 		if name == "" { name = "Unnamed "}
 		if username == "" { username = "No username provided" }
-		
+
 		formattedName := fmt.Sprintf("%s\n%s", name, username)
-		item.(*fyne.Container).Objects[0].(*widget.Label).SetText(formattedName)
+		item.(*fyne.Container).Objects[1].(*widget.Label).SetText(formattedName)
 		list.SetItemHeight(id, 50)
 	}
 	list.OnSelected = func(id widget.ListItemID) {
