@@ -17,15 +17,17 @@ func ShowPasswordCreateDialog(win fyne.Window) {
 	password := widget.NewPasswordEntry()
 	password.SetPlaceHolder("Password")
 	items := []*widget.FormItem{
-		widget.NewFormItem("", name),	
-		widget.NewFormItem("", username),	
-		widget.NewFormItem("", password),	
+		widget.NewFormItem("", name),
+		widget.NewFormItem("", username),
+		widget.NewFormItem("", password),
 	}
 	dialog.ShowForm("Create a new password entry", "Done", "Cancel", items, func(ok bool) {
-		if !ok { return }
+		if !ok {
+			return
+		}
 
 		pass := &model.Password{
-			Name: name.Text,
+			Name:     name.Text,
 			Username: username.Text,
 			Password: password.Text,
 		}
@@ -36,6 +38,8 @@ func ShowPasswordCreateDialog(win fyne.Window) {
 		}
 
 		passes := global.Passwords
-		*passes = append(*passes, pass)
+		db.DB.
+			Order("created_at DESC").
+			Find(&passes)
 	}, win)
 }

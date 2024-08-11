@@ -14,7 +14,7 @@ import (
 
 func CreatePasswordList(win fyne.Window, entries *[]*model.Password) fyne.CanvasObject {
 	res := db.DB.
-		Order("name").
+		Order("created_at DESC").
 		Find(&entries)
 	
 	if res.Error != nil {
