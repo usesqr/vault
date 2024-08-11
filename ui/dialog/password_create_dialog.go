@@ -6,6 +6,7 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/usesqr/vault/db"
 	"github.com/usesqr/vault/db/model"
+	"github.com/usesqr/vault/global"
 )
 
 func ShowPasswordCreateDialog(win fyne.Window) {
@@ -23,14 +24,18 @@ func ShowPasswordCreateDialog(win fyne.Window) {
 	dialog.ShowForm("Create a new password entry", "Done", "Cancel", items, func(ok bool) {
 		if !ok { return }
 
-		res := db.DB.Create(&model.Password{
+		pass := &model.Password{
 			Name: name.Text,
 			Username: username.Text,
 			Password: password.Text,
-		})
+		}
+		res := db.DB.Create(pass)
 
 		if res.Error != nil {
 			dialog.ShowError(res.Error, win)
 		}
+
+		passes := global.Passwords
+		*passes = append(*passes, pass)
 	}, win)
 }

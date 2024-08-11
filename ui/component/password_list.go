@@ -12,8 +12,7 @@ import (
 	"github.com/usesqr/vault/db/model"
 )
 
-func CreatePasswordList(win fyne.Window) fyne.CanvasObject {
-	entries := new([]*model.Password)
+func CreatePasswordList(win fyne.Window, entries *[]*model.Password) fyne.CanvasObject {
 	res := db.DB.
 		Order("name").
 		Find(&entries)

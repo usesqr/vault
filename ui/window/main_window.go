@@ -7,6 +7,7 @@ import (
 	"github.com/usesqr/vault/consts"
 	"github.com/usesqr/vault/crypto"
 	"github.com/usesqr/vault/db"
+	"github.com/usesqr/vault/global"
 	"github.com/usesqr/vault/ui/component"
 	"github.com/usesqr/vault/ui/dialog"
 )
@@ -41,7 +42,7 @@ func CreateMainWindow(a fyne.App) fyne.Window {
 	go func() {
 		<-dbConnected
 		toolbar := component.CreateToolbar(w).(*fyne.Container)
-		toolbar.Add(component.CreatePasswordList(w))
+		toolbar.Add(component.CreatePasswordList(w, global.Passwords))
 		w.SetContent(toolbar)
 	}()
 
