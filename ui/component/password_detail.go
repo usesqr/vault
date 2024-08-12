@@ -22,6 +22,14 @@ func CreatePasswordDetail(win fyne.Window, pass *model.Password) fyne.CanvasObje
 		win.Clipboard().SetContent(pass.Password)
 	})
 
+	updateEntryButton := widget.NewButtonWithIcon("Edit", theme.DocumentCreateIcon(), func() {
+		println("Update")
+	})
+	deleteEntryButton := widget.NewButtonWithIcon("Delete", theme.DeleteIcon(), func() {
+		println("Delete")
+	})
+	deleteEntryButton.Importance = widget.DangerImportance
+
 	return container.NewVBox(
 		container.NewHBox(
 			createBoldLabel("Name"),
@@ -36,6 +44,10 @@ func CreatePasswordDetail(win fyne.Window, pass *model.Password) fyne.CanvasObje
 			createBoldLabel("Password"),
 			widget.NewLabel(pass.Password),
 			copyPasswordButton,
+		),
+		container.NewHBox(
+			updateEntryButton,
+			deleteEntryButton,
 		),
 	)
 }
