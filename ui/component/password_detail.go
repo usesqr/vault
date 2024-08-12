@@ -6,6 +6,7 @@ import (
 	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/usesqr/vault/db/model"
+	"github.com/usesqr/vault/ui/dialog"
 )
 
 func createBoldLabel(text string) (label *widget.Label) {
@@ -26,7 +27,7 @@ func CreatePasswordDetail(win fyne.Window, pass *model.Password) fyne.CanvasObje
 		println("Update")
 	})
 	deleteEntryButton := widget.NewButtonWithIcon("Delete", theme.DeleteIcon(), func() {
-		println("Delete")
+		dialog.ShowDeletePasswordDialog(win, pass)
 	})
 	deleteEntryButton.Importance = widget.DangerImportance
 
