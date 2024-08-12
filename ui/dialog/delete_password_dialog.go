@@ -10,7 +10,7 @@ import (
 	"github.com/usesqr/vault/global"
 )
 
-func ShowDeletePasswordDialog(win fyne.Window, pass *model.Password) {
+func ShowPasswordDeleteDialog(win fyne.Window, pass *model.Password) {
 	name := pass.Name
 	if name == "" {
 		name = "Untitled"
@@ -26,7 +26,7 @@ func ShowDeletePasswordDialog(win fyne.Window, pass *model.Password) {
 			}
 
 			dialog.ShowInformation("Success", "The password was successfully deleted.", win)
-			
+
 			db.DB.
 				Order("created_at DESC").
 				Find(&global.Passwords)

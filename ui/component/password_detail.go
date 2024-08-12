@@ -24,10 +24,10 @@ func CreatePasswordDetail(win fyne.Window, pass *model.Password) fyne.CanvasObje
 	})
 
 	updateEntryButton := widget.NewButtonWithIcon("Edit", theme.DocumentCreateIcon(), func() {
-		println("Update")
+		dialog.ShowPasswordUpdateDialog(win, pass)
 	})
 	deleteEntryButton := widget.NewButtonWithIcon("Delete", theme.DeleteIcon(), func() {
-		dialog.ShowDeletePasswordDialog(win, pass)
+		dialog.ShowPasswordDeleteDialog(win, pass)
 	})
 	deleteEntryButton.Importance = widget.DangerImportance
 
