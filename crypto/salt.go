@@ -47,7 +47,6 @@ func WriteSaltFile(salt []byte) {
 	}
 }
 
-
 func ReadSaltFile() []byte {
 	data, err := os.ReadFile(GetSaltFilePath())
 	if err != nil {

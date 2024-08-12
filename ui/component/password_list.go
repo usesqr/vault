@@ -3,10 +3,10 @@ package component
 import (
 	"fmt"
 
-	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
+	"fyne.io/fyne/v2/theme"
 	"fyne.io/fyne/v2/widget"
 	"github.com/usesqr/vault/db"
 	"github.com/usesqr/vault/db/model"
@@ -16,7 +16,7 @@ func CreatePasswordList(win fyne.Window, entries *[]*model.Password) fyne.Canvas
 	res := db.DB.
 		Order("created_at DESC").
 		Find(&entries)
-	
+
 	if res.Error != nil {
 		dialog.ShowError(res.Error, win)
 	}
@@ -37,8 +37,12 @@ func CreatePasswordList(win fyne.Window, entries *[]*model.Password) fyne.Canvas
 		name := (*entries)[id].Name
 		username := (*entries)[id].Username
 
-		if name == "" { name = "Unnamed "}
-		if username == "" { username = "No username provided" }
+		if name == "" {
+			name = "Unnamed "
+		}
+		if username == "" {
+			username = "No username provided"
+		}
 
 		formattedName := fmt.Sprintf("%s\n%s", name, username)
 		item.(*fyne.Container).Objects[1].(*widget.Label).SetText(formattedName)

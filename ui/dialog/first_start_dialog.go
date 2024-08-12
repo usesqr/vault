@@ -11,7 +11,7 @@ func ShowFirstStartDialog(win fyne.Window, callback func(string, bool)) {
 	password := widget.NewPasswordEntry()
 	password.Validator = validation.NewRegexp(".+", "Field is required")
 	items := []*widget.FormItem{
-		widget.NewFormItem("", password),	
+		widget.NewFormItem("", password),
 	}
 	dialog.ShowForm("Create a strong master password.", "Done", "Cancel", items, func(b bool) {
 		callback(password.Text, b)
