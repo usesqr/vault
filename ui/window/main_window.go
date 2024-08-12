@@ -2,8 +2,10 @@ package window
 
 import (
 	"os"
+	"strings"
 
 	"fyne.io/fyne/v2"
+	fyneDialog "fyne.io/fyne/v2/dialog"
 	"github.com/usesqr/vault/consts"
 	"github.com/usesqr/vault/crypto"
 	"github.com/usesqr/vault/db"
@@ -25,7 +27,22 @@ func CreateMainWindow(a fyne.App) fyne.Window {
 				os.Exit(1)
 			}
 
-			db.Connect(pass, false)
+			err := db.Connect(pass, false)
+			if err != nil {
+				if strings.Contains(err.Error(), "file is not a database") {
+					dialog := fyneDialog.NewInformation(
+						"Could not decrypt database",
+						"Check that you typed the right master password.",
+						w,
+					)
+					dialog.SetDismissText("Quit app")
+					dialog.SetOnClosed(func() { os.Exit(1) })
+					dialog.Show()
+				} else {
+					panic(err)
+				}
+				return
+			}
 			dbConnected <- true
 		})
 	} else {
@@ -34,7 +51,10 @@ func CreateMainWindow(a fyne.App) fyne.Window {
 				os.Exit(1)
 			}
 
-			db.Connect(pass, true)
+			err := db.Connect(pass, false)
+			if err != nil {
+				panic(err)
+			}
 			dbConnected <- true
 		})
 	}

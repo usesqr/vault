@@ -12,7 +12,7 @@ import (
 
 var DB *gorm.DB
 
-func Connect(password string, isFirstTime bool) {
+func Connect(password string, isFirstTime bool) error {
 	var key []byte
 	if isFirstTime {
 		key = crypto.GenerateNewCryptoKey(password)
@@ -24,10 +24,11 @@ func Connect(password string, isFirstTime bool) {
 	db, err := gorm.Open(sqliteEncrypt.Open(dbNameWithDSN))
 
 	if err != nil {
-		panic(err)
+		return err
 	}
 
 	db.AutoMigrate(&model.Password{})
 
 	DB = db
+	return nil
 }
