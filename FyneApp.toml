@@ -1,0 +1,8 @@
+Website = "https://github.com/usesqr/vault"
+
+[Details]
+Icon = "logo.png"
+Name = "Sqr Vault"
+ID = "io.github.usesqr.vault"
+Version = "1.0.0"
+Build = 1
