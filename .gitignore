@@ -23,3 +23,8 @@ go.work.sum
 
 # env file
 .env
+
+# Compiled application packages
+*.tar.xz
+*.tar.gz
+*.app
